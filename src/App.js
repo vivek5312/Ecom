@@ -4,7 +4,9 @@ import data from './components/Back/Data/Data';
 import Header from './components/Font/Header/Header';
 import Product from './components/Font/Product';
 import Cart from './components/Font/Cart/Cart';
-import { CartProvider } from './CartContext';
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import About from './components/Font/Header/Pages/About/About';
+
 function App() {
   const { productItems } = data;
   const [cartShown, setCartShown] = useState(false);
@@ -41,11 +43,19 @@ function App() {
 const handleCartClearance=()=>{
   setCartItem([]);
 }
+
   return (
     <div className="App">
-      <CartProvider>
-      <Header onShown={shownCartHandler} cartItem={cartItem} />
-      <Product productItems={productItems}  handleAddProduct={handleAddProduct}/>
+   <Router>
+   <Header onShown={shownCartHandler} cartItem={cartItem} />
+     <Routes>
+      <Route path='/' element={   <Product productItems={productItems}  handleAddProduct={handleAddProduct}/>}/>
+      <Route path="/about" element= {<About/>}/>
+     </Routes>
+  
+  
+  
+
 
       {cartShown && <Cart 
       onhidden={hiddenCartHandler}
@@ -54,9 +64,10 @@ const handleCartClearance=()=>{
       handleRemoveProduct={handleRemoveProduct}
       handleCartClearance={handleCartClearance}
       />}
-      </CartProvider>
+      </Router>
     </div>
   );
 }
+
 
 export default App;
