@@ -1,5 +1,8 @@
 import React from 'react'
+
+
 import "./Header.css"
+import { NavLink } from 'react-router-dom';
 
 const Header = ({onShown,cartItem}) => {
   return (
@@ -9,13 +12,20 @@ const Header = ({onShown,cartItem}) => {
     </div>
     <div className='header-links'>
         <ul>
-            <li>Home</li>
+            <li>
+            < NavLink className='nav' to='/home'>Home</ NavLink>
+              </li>
         </ul>
         <ul>
-            <li>Store</li>
+            <li>
+
+            < NavLink className='nav' to='/'>Store</ NavLink>
+              </li>
         </ul>
         <ul>
-            <li>About</li>
+            <li>
+             <NavLink className='nav' to='/about'>About</NavLink> 
+              </li>
         </ul>
         
 

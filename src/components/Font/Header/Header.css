@@ -12,13 +12,17 @@
     
 }
 .logo{
+    margin-top: 10px;
     text-decoration: none;
     text-transform: uppercase;
     color: white;
     padding-left: 40px;
 }
 .header-links{
-    display: flex;
+   display: flex;
+  margin-top: 10px;
+  margin-right: 40px;
+  justify-content: space-evenly;
 
 }
 .header-links ul li{
@@ -26,24 +30,33 @@
     display: inline-block;
     font-size: 18px;
     color: white;
-
+   padding: 0 15px;
+ text-decoration: none;
 }
 .btn{
+   
     width: 70px;
     height: 40px;
     margin-right: 10px;
     font-size: 16px;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 5px;
     background-color: aqua;
 }
-.header-links ul li:hover{
-    color: #fffc3c;
-}
+
+
 .cart-length{
     margin: 3px;
     font-size: 14px;
     font-weight: 700;
     vertical-align: super;
     color: brown
+}
+.nav{
+    color: white;
+    text-decoration: none;
+}
+.nav:hover{
+    color: #fffc3c;
+    text-decoration: underline;
 }
