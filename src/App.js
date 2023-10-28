@@ -1,18 +1,27 @@
-import React, { useState,useContext} from 'react';
+import React, { useState,useContext, lazy, Suspense} from 'react';
 import './App.css';
 import data from './components/Back/Data/Data';
 import Header from './components/Font/Header/Header';
-import Product from './components/Font/Product';
+//import Product from './components/Font/Product';
 import Cart from './components/Font/Cart/Cart';
 import { BrowserRouter as Router, Route,Routes,Navigate} from 'react-router-dom';
 
-import About from './components/Font/Header/Pages/About/About';
-import Home from './components/Font/Header/Pages/Home/Home';
-import Contact from './components/Font/Header/Pages/Contact/Contact';
-import ProductDetail from './components/ProductDetail';
+//import About from './components/Font/Header/Pages/About/About';
+//import Home from './components/Font/Header/Pages/Home/Home';
+//import Contact from './components/Font/Header/Pages/Contact/Contact';
+//import ProductDetail from './components/ProductDetail';
 import { AuthContext } from './Store/AuthContex';
-import UserProfile from './Auth/UserProfile';
-import AuthPages from './components/Font/Header/Pages/AuthPages';
+//import UserProfile from './Auth/UserProfile';
+//import AuthPages from './components/Font/Header/Pages/AuthPages';
+
+const Home=lazy(()=>import('./components/Font/Header/Pages/Home/Home'));
+const About=lazy(()=>import('./components/Font/Header/Pages/About/About'));
+const Contact=lazy(()=>import('./components/Font/Header/Pages/Contact/Contact'));
+const ProductDetail=lazy(()=>import('./components/ProductDetail'));
+const Product=lazy(()=>import('./components/Font/Product'));
+const AuthPages=lazy(()=>import('./components/Font/Header/Pages/AuthPages'));
+const UserProfile=lazy(()=>import('./Auth/UserProfile'))
+
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -21,7 +30,6 @@ function App() {
   const [cartItem, setCartItem] = useState([]);
 
 
-  
   const shownCartHandler = () => {
     setCartShown(true);
   };
@@ -30,9 +38,9 @@ function App() {
     setCartShown(false);
   };
 
- const handleAddProduct = (product) => {
+ const handleAddProduct = async(product) => {
   const ProductExist = cartItem.find((item) => item.id === product.id);
- 
+
   
   if (ProductExist) {
     setCartItem((prevCartItems) =>
@@ -48,7 +56,6 @@ function App() {
     
   }
  
-
 };
 
 
@@ -112,15 +119,15 @@ async function addDetail(detail) {
    <Header onShown={shownCartHandler} cartItem={cartItem} />
   
    <Routes>
-   <Route path="/" element={<Product productItems={productItems} handleAddProduct={handleAddProduct} />} />
-  <Route path="/products/:id" element={authCtx.isLoggedIn ? <ProductDetail productItems={productItems} /> : <Navigate to="/auth" />} />
-  <Route path="/about" element={authCtx.isLoggedIn ? <About /> : <Navigate to="/auth" />} />
-   <Route path='/home' element={<Home />} />
-   <Route path='/contact' element={<Contact onAddDetail={addDetail} />} />
+   <Route path="/" element={<Suspense> <Product productItems={productItems} handleAddProduct={handleAddProduct} /> </Suspense>} />
+  <Route path="/products/:id" element={authCtx.isLoggedIn ? <Suspense> <ProductDetail productItems={productItems} /> </Suspense> : <Navigate to="/auth" />} />
+  <Route path="/about" element={authCtx.isLoggedIn ? <Suspense><About /> </Suspense>: <Navigate to="/auth" />} />
+   <Route path='/home' element={<Suspense fallback={<p>Loadin...</p>}> <Home /> </Suspense>} />
+   <Route path='/contact' element={<Suspense><Contact onAddDetail={addDetail} /></Suspense>} />
    {!authCtx.isLoggedIn && (
-       <Route path="/auth" element={<AuthPages />} />
+       <Route path="/auth" element={<Suspense><AuthPages /></Suspense>} />
    )}
-   <Route path='/profile' element={<UserProfile />} />
+   <Route path='/profile' element={<Suspense><UserProfile /></Suspense>} />
 </Routes>
 
 
